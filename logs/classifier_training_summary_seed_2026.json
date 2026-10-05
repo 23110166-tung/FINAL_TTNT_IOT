@@ -1,0 +1,37 @@
+{
+  "cvaeaug": {
+    "branch": "cvaeaug",
+    "best_epoch": 18,
+    "best_val_macro_f1": 0.7163779205837351,
+    "actual_update_steps": 10782,
+    "checkpoint_path": "checkpoints\\classifier_cvaeaug_best.pth"
+  },
+  "ros": {
+    "branch": "ros",
+    "best_epoch": 48,
+    "best_val_macro_f1": 0.7475598520420073,
+    "actual_update_steps": 28752,
+    "checkpoint_path": "checkpoints\\classifier_ros_best.pth"
+  },
+  "tradaug": {
+    "branch": "tradaug",
+    "best_epoch": 28,
+    "best_val_macro_f1": 0.7461706700809766,
+    "actual_update_steps": 16772,
+    "checkpoint_path": "checkpoints\\classifier_tradaug_best.pth"
+  },
+  "trtr": {
+    "branch": "trtr",
+    "best_epoch": 28,
+    "best_val_macro_f1": 0.7139720596401283,
+    "actual_update_steps": 15148,
+    "checkpoint_path": "checkpoints\\classifier_trtr_best.pth"
+  },
+  "tstr": {
+    "branch": "tstr",
+    "best_epoch": 10,
+    "best_val_macro_f1": 0.43043771467765884,
+    "actual_update_steps": 5410,
+    "checkpoint_path": "checkpoints\\classifier_tstr_best.pth"
+  }
+}

@@ -1,0 +1,111 @@
+# Cấu hình Thống nhất cho Dự án 1D-cVAE HAR trên PPG-DaLiA
+# Căn cứ: Đề cương đã chỉnh sửa và Phiếu nhận xét (tháng 09/2026)
+
+dataset:
+  raw_dir: "C:/Users/ztung/Downloads/ppg_dalia_extracted/PPG_FieldStudy"
+  download_url: "https://archive.ics.uci.edu/static/public/495/ppg+dalia.zip"
+  acc_field: "signal/wrist/ACC"
+  activity_field: "activity"
+  sampling_rate_acc: 32          # Hz
+  sampling_rate_activity: 4     # Hz
+  zoh_factor: 8                 # floor(i / 8)
+  window_size: 128              # 4.0 giây tại 32 Hz
+  window_stride: 64             # 50% chồng lấn
+  num_axes: 3                   # x, y, z
+  keep_dc: true                 # Cấu hình chính: Giữ nguyên DC, không lọc HPF 0.5Hz, không trừ mean
+  drop_code_zero: true          # Loại bỏ mã 0 (no activity / transient)
+  valid_raw_codes: [1, 2, 3, 4, 5, 6, 7, 8]
+  num_classes: 8
+  
+split:
+  train_subjects: ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11"]
+  val_subjects: ["S12", "S13"]
+  test_subjects: ["S14", "S15"]
+
+label_mapping:
+  raw_to_internal:
+    1: 0  # Sitting
+    2: 1  # Stairs
+    3: 2  # Table soccer
+    4: 3  # Cycling
+    5: 4  # Driving
+    6: 5  # Lunch break
+    7: 6  # Walking
+    8: 7  # Working
+  class_names:
+    0: "Sitting"
+    1: "Stairs"
+    2: "Table soccer"
+    3: "Cycling"
+    4: "Driving"
+    5: "Lunch break"
+    6: "Walking"
+    7: "Working"
+
+cvae:
+  in_channels: 11               # 3 (signal) + 8 (one-hot label expanded)
+  signal_channels: 3
+  condition_dim: 8
+  latent_dim: 32
+  seq_len: 128
+  
+  # Training hyperparams
+  batch_size: 64
+  lr: 0.001
+  weight_decay: 0.0001
+  max_epochs: 100
+  beta_max: 1.0                 # Cấu hình chính
+  beta_warmup_epochs: 25        # Tăng tuyến tính beta trong 25 epoch
+  val_fixed_beta: 1.0           # Val loss tính với beta cố định = 1.0
+  min_epoch_early_stop: 25      # Chỉ bắt đầu early stopping sau warm-up (epoch 25)
+  early_stopping_patience: 15
+  cosine_t_max: 100
+  cosine_eta_min: 0.00001
+
+classifier:
+  in_channels: 3
+  num_classes: 8
+  seq_len: 128
+  batch_size: 64
+  lr: 0.001
+  weight_decay: 0.0001
+  max_epochs: 100
+  early_stopping_patience: 10
+  
+  # Kỹ thuật tăng cường truyền thống (TradAug)
+  tradaug:
+    jitter_std: 0.01            # Nhiễu Gaussian sigma=0.01 trong không gian chuẩn hóa
+    scale_min: 0.95             # Scaling Uniform(0.95, 1.05)
+    scale_max: 1.05
+
+evaluation:
+  seeds: [2026, 2027, 2028]
+  mmd:
+    num_train_subsample: 2000   # Tối đa 2000 cửa sổ train thật để ước lượng sigma_0
+    max_samples_per_class: 300  # m = n = min(300, N_test, N_syn, N_train)
+    bandwidth_scales: [0.5, 1.0, 2.0]
+    feature_dim: 108            # 9 time-domain + 99 frequency-domain
+  welch_psd:
+    fs: 32
+    nperseg: 64
+    noverlap: 32
+    nfft: 64
+    detrend: false
+    scaling: "density"
+    delta_f: 0.5                # Hz mỗi bin (33 bins từ 0 đến 16 Hz)
+
+paths:
+  scaler: "checkpoints/scaler.pkl"
+  cvae_checkpoint: "checkpoints/cvae_acc_dalia_best.pth"
+  classifier_checkpoints:
+    trtr: "checkpoints/classifier_trtr_best.pth"
+    ros: "checkpoints/classifier_ros_best.pth"
+    tradaug: "checkpoints/classifier_tradaug_best.pth"
+    tstr: "checkpoints/classifier_tstr_best.pth"
+    cvaeaug: "checkpoints/classifier_cvaeaug_best.pth"
+  split_manifest: "results/split_manifest.json"
+  window_statistics: "results/window_statistics.csv"
+  raw_predictions: "results/raw_predictions.csv"
+  metrics_summary: "results/metrics_summary.csv"
+  logs_dir: "logs"
+  results_dir: "results"
