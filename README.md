@@ -31,8 +31,7 @@ Dự án nghiên cứu khả năng sinh dữ liệu gia tốc ba trục ($x, y, 
 CUOI_KY_IOT/
 ├── NguyenBachTung_1D_cVAE_PPG_DaLiA.ipynb # Jupyter Notebook tổng hợp toàn bộ mã nguồn & kết quả
 ├── NguyenBachTung_BaoCao_CuoiKy.docx     # Báo cáo cuối kỳ bản Word hoàn chỉnh
-├── NguyenBachTung_DeCuong_DaChinhSua.docx# Đề cương đồ án (Word & PDF)
-├── NguyenBachTung_NhanXet_ChinhSua.docx  # Phiếu nhận xét đề cương (Word & PDF)
+├── REFERENCES.md                         # Danh mục tài liệu tham khảo & đối chiếu trích dẫn chuẩn IEEE
 ├── configs/
 │   └── config.yaml                       # Toàn bộ siêu tham số tập trung
 ├── src/                                  # Mã nguồn module Python
@@ -196,5 +195,28 @@ python src/realtime_server.py
 3. Bấm **"BẮT ĐẦU ĐO GIA TỐC"**: Cảm biến gia tốc điện thoại phát luồng dữ liệu 32 Hz qua WebSocket về máy tính.
 4. Máy tính chuẩn hóa Z-score từ `checkpoints/scaler.pkl`, đưa qua `HARClassifier` (checkpoint tốt nhất) và phản hồi kết quả nhận diện (Ngồi, Đi bộ, Leo cầu thang, Đạp xe...) kèm xác suất hiển thị trực tiếp trên màn hình điện thoại trong thời gian thực.
 5. Hỗ trợ thêm chế độ test mẫu thật từ PPG-DaLiA và nhận dữ liệu từ app **Sensor Logger**.
+
+---
+
+## 8. Danh mục Tài liệu Tham khảo (References)
+
+Chi tiết đầy đủ về ngữ cảnh trích dẫn, bảng đối chiếu trang trong văn bản báo cáo và định dạng BibTeX được lưu trữ tại: 👉 **[REFERENCES.md](REFERENCES.md)**.
+
+| Mã | Tài liệu tham khảo (IEEE Format) | Vị trí trích dẫn trong Báo cáo DOCX | Liên kết / DOI |
+| :---: | :--- | :--- | :---: |
+| **[1]** | A. Reiss et al., *"PPG-DaLiA,"* UCI Machine Learning Repository, 2019. | Mục 2.1 (Trang 4) | [DOI: 10.24432/C53890](https://doi.org/10.24432/C53890) |
+| **[2]** | A. Reiss et al., *"Deep PPG: Large-Scale Heart Rate Estimation with CNNs,"* *Sensors*, 2019. | Mục 2.1 (Trang 4) | [DOI: 10.3390/s19143079](https://doi.org/10.3390/s19143079) |
+| **[3]** | P. H. Charlton, *"collate_ppg_dalia_dataset.m: MATLAB Data Collation Script,"* Univ. of Cambridge, 2026. | Mục 2.2 (Trang 4) | [GitHub](https://github.com/peterhcharlton/ppg-dalia-dataset) |
+| **[4]** | D. P. Kingma & M. Welling, *"Auto-Encoding Variational Bayes,"* ICLR, 2013. | Mục 3.2 & Mục 3.4 (Trang 8, 9) | [arXiv:1312.6114](https://arxiv.org/abs/1312.6114) |
+| **[5]** | K. Sohn et al., *"Learning Structured Output Representation using Deep cVAEs,"* NeurIPS, 2015. | Mục 3.2 (Trang 8) | [NeurIPS](https://papers.nips.cc/paper/2015/hash/8d55a9e3e7acd218d61b923baf54b1f4-Abstract.html) |
+| **[6]** | C. Esteban et al., *"Real-valued (Medical) Time Series Generation with RCGANs,"* arXiv, 2017. | Mục 1.3 (Trang 2) | [arXiv:1706.02633](https://arxiv.org/abs/1706.02633) |
+| **[7]** | A. Gretton et al., *"A Kernel Two-Sample Test,"* *JMLR*, vol. 13, 2012. | Mục 4.4 (Trang 14) | [JMLR](https://jmlr.org/papers/v13/gretton12a.html) |
+| **[8]** | PyTorch Foundation, *"ConvTranspose1d Module Documentation,"* PyTorch Docs v2.5, 2026. | Mục 3.5 (Trang 9) | [PyTorch Docs](https://pytorch.org/docs/stable/generated/torch.nn.ConvTranspose1d.html) |
+| **[9]** | Scikit-learn Developers, *"Common pitfalls in data preprocessing (Data Leakage),"* v1.5, 2026. | Mục 2.5 (Trang 5) | [Scikit-learn](https://scikit-learn.org/stable/common_pitfalls.html) |
+| **[10]** | SciPy Community, *"scipy.signal.welch: Estimation of PSD,"* SciPy Reference v1.14, 2026. | Mục 4.4 (Trang 14) | [SciPy Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html) |
+| **[11]** | Scikit-learn Developers, *"r2_score: Coefficient of determination,"* v1.5, 2026. | Mục 5.3 (Trang 17) | [Scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html) |
+
+---
+**Tác giả đồ án:** Nguyễn Bách Tùng — Hà Nội, 2026.
 
 
