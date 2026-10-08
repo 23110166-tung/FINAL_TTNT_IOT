@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>[03] Charlton MATLAB Data Collation Script & Pipeline Documentation</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #222; max-width: 900px; margin: 40px auto; padding: 0 20px; }
+  h1 { color: #1a365d; border-bottom: 2px solid #2b6cb0; padding-bottom: 8px; font-size: 22pt; }
+  h2 { color: #2b6cb0; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-top: 30px; }
+  .badge { display: inline-block; background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; padding: 4px 8px; border-radius: 4px; font-size: 11pt; font-weight: bold; margin-right: 8px; }
+  .box { background: #f7fafc; border-left: 4px solid #3182ce; padding: 16px 20px; margin: 20px 0; border-radius: 0 4px 4px 0; }
+  pre { background: #2d3748; color: #f7fafc; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 10pt; }
+  code { font-family: Consolas, monospace; }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  th, td { border: 1px solid #cbd5e0; padding: 10px 12px; text-align: left; }
+  th { background: #edf2f7; color: #2d3748; }
+  .footer { margin-top: 50px; font-size: 10pt; color: #718096; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+</style>
+</head>
+<body>
+
+<div class="badge">REFERENCE [3]</div>
+<div class="badge">DATA COLLATION SCRIPT</div>
+<div class="badge">CAMBRIDGE PHYSIOLOGICAL TOOLBOX</div>
+
+<h1>collate_ppg_dalia_dataset.m: MATLAB Data Collation Pipeline</h1>
+
+<div class="box">
+  <strong>Author:</strong> Dr. Peter H. Charlton (University of Cambridge / King's College London)<br>
+  <strong>Toolbox / Script:</strong> <code>collate_ppg_dalia_dataset.m</code> & <code>convert_subject_pickle_files_to_mat.py</code><br>
+  <strong>Repository:</strong> <a href="https://github.com/peterhcharlton/ppg-dalia-dataset">https://github.com/peterhcharlton/ppg-dalia-dataset</a><br>
+  <strong>Associated Projects:</strong> PPG-Beats, RRest, Wearable Physiological Monitoring Roadmaps.
+</div>
+
+<h2>1. Scientific Importance to this Capstone Project</h2>
+<p>In Section 2.2 of the Capstone Project report (<em>Đồ án Cuối kỳ AIoT — Nguyễn Bách Tùng</em>), this script provides the definitive scientific benchmark confirming the distinction between target labels:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Data Field</th>
+      <th>Sampling Rate</th>
+      <th>Scientific Role & Target Definition</th>
+      <th>Alignment Strategy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>raw.activity</code></td>
+      <td><strong>4 Hz</strong></td>
+      <td><strong>Human Activity Recognition (HAR) Labels</strong><br>Annotates 8 discrete daily living activities.</td>
+      <td>Zero-Order Hold (ZOH) repeat interpolation (factor 8x) to match 32 Hz acceleration.</td>
+    </tr>
+    <tr>
+      <td><code>raw.label</code></td>
+      <td><strong>0.5 Hz</strong></td>
+      <td><strong>Reference ECG Heart Rate (BPM)</strong><br>Computed every 2 seconds from chest ECG R-peaks.</td>
+      <td>Continuous physiological parameter; distinct from HAR classification targets.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>2. Included Files in this Directory</h2>
+<ul>
+  <li><code>[03]_Charlton2026_collate_ppg_dalia_dataset.m</code>: Full MATLAB script for data collation and ZOH alignment.</li>
+  <li><code>[03]_Charlton2026_convert_subject_pickle_files_to_mat.py</code>: Python conversion utility from raw pickle files to MAT structures.</li>
+</ul>
+
+<div class="footer">
+  Tài liệu đối chiếu phục vụ Đồ án Cuối kỳ AIoT — Sinh viên: Nguyễn Bách Tùng (MSSV: 23110166)<br>
+  Trích dẫn: [3] P. H. Charlton, collate_ppg_dalia_dataset.m, University of Cambridge, 2026.
+</div>
+
+</body>
+</html>

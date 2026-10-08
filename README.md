@@ -200,21 +200,22 @@ python src/realtime_server.py
 
 ## 8. Danh mục Tài liệu Tham khảo (References)
 
-Chi tiết đầy đủ về ngữ cảnh trích dẫn, bảng đối chiếu trang trong văn bản báo cáo và định dạng BibTeX được lưu trữ tại: 👉 **[REFERENCES.md](REFERENCES.md)**.
+Toàn bộ **11 tài liệu gốc (PDF bài báo quốc tế, mã nguồn MATLAB/Python, tài liệu kỹ thuật chuẩn)** đã được tải về và lưu trữ đầy đủ trong thư mục: 👉 **[`tai_lieu_tham_khao/`](tai_lieu_tham_khao/)** ([Xem mục lục chi tiết](tai_lieu_tham_khao/README.md)).  
+Chi tiết về ngữ cảnh trích dẫn học thuật, bảng đối chiếu trang trong văn bản báo cáo và định dạng BibTeX được lưu trữ tại: 👉 **[REFERENCES.md](REFERENCES.md)**.
 
-| Mã | Tài liệu tham khảo (IEEE Format) | Vị trí trích dẫn trong Báo cáo DOCX | Liên kết / DOI |
-| :---: | :--- | :--- | :---: |
-| **[1]** | A. Reiss et al., *"PPG-DaLiA,"* UCI Machine Learning Repository, 2019. | Mục 2.1 (Trang 4) | [DOI: 10.24432/C53890](https://doi.org/10.24432/C53890) |
-| **[2]** | A. Reiss et al., *"Deep PPG: Large-Scale Heart Rate Estimation with CNNs,"* *Sensors*, 2019. | Mục 2.1 (Trang 4) | [DOI: 10.3390/s19143079](https://doi.org/10.3390/s19143079) |
-| **[3]** | P. H. Charlton, *"collate_ppg_dalia_dataset.m: MATLAB Data Collation Script,"* Univ. of Cambridge, 2026. | Mục 2.2 (Trang 4) | [GitHub](https://github.com/peterhcharlton/ppg-dalia-dataset) |
-| **[4]** | D. P. Kingma & M. Welling, *"Auto-Encoding Variational Bayes,"* ICLR, 2013. | Mục 3.2 & Mục 3.4 (Trang 8, 9) | [arXiv:1312.6114](https://arxiv.org/abs/1312.6114) |
-| **[5]** | K. Sohn et al., *"Learning Structured Output Representation using Deep cVAEs,"* NeurIPS, 2015. | Mục 3.2 (Trang 8) | [NeurIPS](https://papers.nips.cc/paper/2015/hash/8d55a9e3e7acd218d61b923baf54b1f4-Abstract.html) |
-| **[6]** | C. Esteban et al., *"Real-valued (Medical) Time Series Generation with RCGANs,"* arXiv, 2017. | Mục 1.3 (Trang 2) | [arXiv:1706.02633](https://arxiv.org/abs/1706.02633) |
-| **[7]** | A. Gretton et al., *"A Kernel Two-Sample Test,"* *JMLR*, vol. 13, 2012. | Mục 4.4 (Trang 14) | [JMLR](https://jmlr.org/papers/v13/gretton12a.html) |
-| **[8]** | PyTorch Foundation, *"ConvTranspose1d Module Documentation,"* PyTorch Docs v2.5, 2026. | Mục 3.5 (Trang 9) | [PyTorch Docs](https://pytorch.org/docs/stable/generated/torch.nn.ConvTranspose1d.html) |
-| **[9]** | Scikit-learn Developers, *"Common pitfalls in data preprocessing (Data Leakage),"* v1.5, 2026. | Mục 2.5 (Trang 5) | [Scikit-learn](https://scikit-learn.org/stable/common_pitfalls.html) |
-| **[10]** | SciPy Community, *"scipy.signal.welch: Estimation of PSD,"* SciPy Reference v1.14, 2026. | Mục 4.4 (Trang 14) | [SciPy Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html) |
-| **[11]** | Scikit-learn Developers, *"r2_score: Coefficient of determination,"* v1.5, 2026. | Mục 5.3 (Trang 17) | [Scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html) |
+| Mã | Tài liệu tham khảo (IEEE Format) | Vị trí trích dẫn trong Báo cáo DOCX | Tệp Minh chứng Lưu trữ (`tai_lieu_tham_khao/`) |
+| :---: | :--- | :--- | :--- |
+| **[1]** | A. Reiss et al., *"PPG-DaLiA,"* UCI Machine Learning Repository, 2019. | Mục 2.1 (Trang 4) | [[01] Đặc tả PPG-DaLiA (PDF)](tai_lieu_tham_khao/[01]_UCI_PPG_DaLiA_Dataset_Documentation.pdf) |
+| **[2]** | A. Reiss et al., *"Deep PPG: Large-Scale Heart Rate Estimation with CNNs,"* *Sensors*, 2019. | Mục 2.1 (Trang 4) | [[02] Bài báo Reiss Sensors (PDF)](tai_lieu_tham_khao/[02]_Reiss2019_Deep_PPG_Sensors.pdf) |
+| **[3]** | P. H. Charlton, *"collate_ppg_dalia_dataset.m: MATLAB Data Collation Script,"* Univ. of Cambridge, 2026. | Mục 2.2 (Trang 4) | [[03] Mã MATLAB](tai_lieu_tham_khao/[03]_Charlton2026_collate_ppg_dalia_dataset.m) \| [[03] Python](tai_lieu_tham_khao/[03]_Charlton2026_convert_subject_pickle_files_to_mat.py) |
+| **[4]** | D. P. Kingma & M. Welling, *"Auto-Encoding Variational Bayes,"* ICLR, 2013. | Mục 3.2 & Mục 3.4 (Trang 8, 9) | [[04] Bài báo Kingma VAE (PDF)](tai_lieu_tham_khao/[04]_Kingma2013_Auto_Encoding_Variational_Bayes_ICLR.pdf) |
+| **[5]** | K. Sohn et al., *"Learning Structured Output Representation using Deep cVAEs,"* NeurIPS, 2015. | Mục 3.2 (Trang 8) | [[05] Bài báo Sohn cVAE (PDF)](tai_lieu_tham_khao/[05]_Sohn2015_Learning_Structured_Output_Representation_cVAE_NeurIPS.pdf) |
+| **[6]** | C. Esteban et al., *"Real-valued (Medical) Time Series Generation with RCGANs,"* arXiv, 2017. | Mục 1.3 (Trang 2) | [[06] Bài báo Esteban RCGAN (PDF)](tai_lieu_tham_khao/[06]_Esteban2017_Medical_Time_Series_RCGAN.pdf) |
+| **[7]** | A. Gretton et al., *"A Kernel Two-Sample Test,"* *JMLR*, vol. 13, 2012. | Mục 4.4 (Trang 14) | [[07] Bài báo Gretton MMD (PDF)](tai_lieu_tham_khao/[07]_Gretton2012_Kernel_Two_Sample_Test_MMD_JMLR.pdf) |
+| **[8]** | PyTorch Foundation, *"ConvTranspose1d Module Documentation,"* PyTorch Docs v2.5, 2026. | Mục 3.5 (Trang 9) | [[08] Tài liệu ConvTranspose1d (PDF)](tai_lieu_tham_khao/[08]_PyTorch_ConvTranspose1d_Official_Documentation.pdf) |
+| **[9]** | Scikit-learn Developers, *"Common pitfalls in data preprocessing (Data Leakage),"* v1.5, 2026. | Mục 2.5 (Trang 5) | [[09] Tài liệu Data Leakage (PDF)](tai_lieu_tham_khao/[09]_ScikitLearn_Data_Leakage_Preprocessing_Pitfalls.pdf) |
+| **[10]** | SciPy Community, *"scipy.signal.welch: Estimation of PSD,"* SciPy Reference v1.14, 2026. | Mục 4.4 (Trang 14) | [[10] Tài liệu SciPy Welch (PDF)](tai_lieu_tham_khao/[10]_SciPy_Signal_Welch_PSD_Official_Documentation.pdf) |
+| **[11]** | Scikit-learn Developers, *"r2_score: Coefficient of determination,"* v1.5, 2026. | Mục 5.3 (Trang 17) | [[11] Tài liệu R2 Score (PDF)](tai_lieu_tham_khao/[11]_ScikitLearn_R2_Score_Official_Documentation.pdf) |
 
 ---
 **Tác giả đồ án:** Nguyễn Bách Tùng — Hà Nội, 2026.

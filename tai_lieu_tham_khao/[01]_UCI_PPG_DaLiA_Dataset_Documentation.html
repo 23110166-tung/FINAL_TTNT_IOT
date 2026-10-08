@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>[01] UCI PPG-DaLiA Dataset - Official Documentation & Specification</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #222; max-width: 900px; margin: 40px auto; padding: 0 20px; }
+  h1 { color: #1a365d; border-bottom: 2px solid #2b6cb0; padding-bottom: 8px; font-size: 24pt; }
+  h2 { color: #2b6cb0; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-top: 30px; }
+  h3 { color: #2d3748; }
+  .badge { display: inline-block; background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; padding: 4px 8px; border-radius: 4px; font-size: 11pt; font-weight: bold; margin-right: 8px; }
+  .box { background: #f7fafc; border-left: 4px solid #3182ce; padding: 16px 20px; margin: 20px 0; border-radius: 0 4px 4px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  th, td { border: 1px solid #cbd5e0; padding: 10px 12px; text-align: left; }
+  th { background: #edf2f7; color: #2d3748; }
+  tr:nth-child(even) { background: #f8fafc; }
+  code { background: #edf2f7; padding: 2px 6px; border-radius: 3px; font-family: Consolas, monospace; font-size: 10pt; }
+  .footer { margin-top: 50px; font-size: 10pt; color: #718096; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+</style>
+</head>
+<body>
+
+<div class="badge">REFERENCE [1]</div>
+<div class="badge">BENCHMARK DATASET</div>
+<div class="badge">DOI: 10.24432/C53890</div>
+
+<h1>PPG-DaLiA: A Dataset for PPG-based Heart Rate and Activity Recognition in Daily Life</h1>
+
+<div class="box">
+  <strong>UCI Machine Learning Repository Record:</strong><br>
+  <strong>Dataset Name:</strong> PPG-DaLiA<br>
+  <strong>DOI:</strong> <a href="https://doi.org/10.24432/C53890">10.24432/C53890</a><br>
+  <strong>UCI ID:</strong> 495<br>
+  <strong>Repository URL:</strong> <a href="https://archive.ics.uci.edu/dataset/495/ppg+dalia">https://archive.ics.uci.edu/dataset/495/ppg+dalia</a><br>
+  <strong>Total Instances:</strong> ~8,300,000 samples across 15 subjects<br>
+  <strong>Year of Creation:</strong> 2019 | <strong>License:</strong> Creative Commons Attribution 4.0 International (CC BY 4.0)
+</div>
+
+<h2>1. Dataset Abstract & Overview</h2>
+<p>PPG-DaLiA contains data from 15 subjects wearing physiological and motion sensors, providing a PPG dataset for motion compensation and heart rate estimation in Daily Life Activities.
+	</p>
+<p>PPG-DaLiA contains multi-sensor physiological and motion data collected from <strong>15 healthy subjects</strong> (8 males, 7 females, aged 21–55) wearing both a wrist-worn wearable device (<strong>Empatica E4</strong>) and a medical-grade chest sensor (<strong>RespiBAN Professional</strong>). Data collection spanned approximately 2.5 hours per subject under real-life conditions adhering to an 8-stage naturalistic activity protocol.</p>
+
+<h2>2. Hardware Configuration & Sampling Specifications</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Sensor Device</th>
+      <th>Placement</th>
+      <th>Signal Modality</th>
+      <th>Sampling Rate</th>
+      <th>Unit / Resolution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="4"><strong>Empatica E4</strong><br>(Wearable Wristband)</td>
+      <td rowspan="4">Non-dominant wrist</td>
+      <td><strong>3-Axis Accelerometer (ACC)</strong></td>
+      <td><strong>32 Hz</strong></td>
+      <td>g (&plusmn;2g range)</td>
+    </tr>
+    <tr>
+      <td>Photoplethysmography (BVP / PPG)</td>
+      <td>64 Hz</td>
+      <td>Optical absorption</td>
+    </tr>
+    <tr>
+      <td>Electrodermal Activity (EDA)</td>
+      <td>4 Hz</td>
+      <td>MicroSiemens (&mu;S)</td>
+    </tr>
+    <tr>
+      <td>Skin Temperature (TEMP)</td>
+      <td>4 Hz</td>
+      <td>Degrees Celsius (&deg;C)</td>
+    </tr>
+    <tr>
+      <td rowspan="4"><strong>RespiBAN Professional</strong><br>(Reference Chest Unit)</td>
+      <td rowspan="4">Chest strap</td>
+      <td>Electrocardiogram (ECG)</td>
+      <td>700 Hz</td>
+      <td>Millivolts (mV)</td>
+    </tr>
+    <tr>
+      <td>Respiration (RESP)</td>
+      <td>700 Hz</td>
+      <td>Chest circumference</td>
+    </tr>
+    <tr>
+      <td>3-Axis Accelerometer</td>
+      <td>700 Hz</td>
+      <td>g (&plusmn;6g range)</td>
+    </tr>
+    <tr>
+      <td>Chest Skin Temperature / EDA</td>
+      <td>700 Hz</td>
+      <td>&deg;C / &mu;S</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3. Ground Truth Labels & Synchronization Protocol</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Field Name</th>
+      <th>Sampling Rate</th>
+      <th>Description & Purpose</th>
+      <th>Classes / Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>activity</code></td>
+      <td><strong>4 Hz</strong></td>
+      <td><strong>Human Activity Recognition (HAR) Labels</strong><br>Annotated with precise timestamps during the 2.5-hour protocol.</td>
+      <td>
+        0: Transient / Other<br>
+        1: Sitting<br>
+        2: Stair climbing<br>
+        3: Table soccer<br>
+        4: Cycling<br>
+        5: Driving car<br>
+        6: Lunch break<br>
+        7: Walking<br>
+        8: Working at desk
+      </td>
+    </tr>
+    <tr>
+      <td><code>label</code></td>
+      <td><strong>0.5 Hz</strong></td>
+      <td><strong>Reference Heart Rate (Ground Truth HR)</strong><br>Calculated every 2 seconds from 8-second R-peak intervals of chest ECG.</td>
+      <td>Continuous heart rate (beats per minute - BPM)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>4. Research Context in this Capstone Project</h2>
+<p>In this study (<em>Đồ án Cuối kỳ AIoT - Nguyễn Bách Tùng</em>), the PPG-DaLiA dataset serves as the benchmark foundation:</p>
+<ul>
+  <li><strong>Input Modality:</strong> 3-axis wrist acceleration signals (<code>ACC_x, ACC_y, ACC_z</code>) at 32 Hz.</li>
+  <li><strong>Window Segmentation:</strong> Sliding windows of 4.0 seconds (128 samples per window) with 50% overlap (64 samples step size).</li>
+  <li><strong>Target Classes:</strong> 8 valid daily physical activities (Classes 1 through 8, excluding transient Class 0).</li>
+  <li><strong>Subject-Wise Partitioning:</strong> Subjects S1 through S11 allocated to the Training set; Subjects S12 through S15 strictly reserved for the Test holdout set (LOSO-compatible evaluation).</li>
+</ul>
+
+<div class="footer">
+  Tài liệu đối chiếu phục vụ Đồ án Cuối kỳ AIoT — Sinh viên: Nguyễn Bách Tùng (MSSV: 23110166)<br>
+  Nguồn: UCI Machine Learning Repository | Trích dẫn: [1] A. Reiss et al., PPG-DaLiA, UCI ML Repository, 2019.
+</div>
+
+</body>
+</html>
