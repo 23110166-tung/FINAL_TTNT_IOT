@@ -55,7 +55,13 @@ def get_local_ip():
     return ip
 
 class RealtimeHARPipeline:
-    def __init__(self, checkpoint_path="checkpoints/classifier_ros_best.pth", scaler_path="checkpoints/scaler.pkl"):
+    def __init__(self, checkpoint_path=None, scaler_path=None):
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        root_dir = os.path.abspath(os.path.join(base_dir, ".."))
+        if checkpoint_path is None:
+            checkpoint_path = "checkpoints/classifier_ros_best.pth" if os.path.exists("checkpoints/classifier_ros_best.pth") else os.path.join(root_dir, "checkpoints", "classifier_ros_best.pth")
+        if scaler_path is None:
+            scaler_path = "checkpoints/scaler.pkl" if os.path.exists("checkpoints/scaler.pkl") else os.path.join(root_dir, "checkpoints", "scaler.pkl")
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(f"[AI CORE] Khởi tạo thiết bị suy luận: {self.device}")
         
