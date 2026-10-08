@@ -100,25 +100,38 @@ class RealtimeHARPipeline:
         # 1. Chuyển thành numpy array (128, 3) -> (3, 128)
         raw_window = np.array(self.buffer, dtype=np.float32).T # (3, 128)
         
-        # 2. Chuẩn hóa Z-score: (x - mean) / std cho từng trục
-        norm_window = (raw_window - self.mean[:, None]) / self.std[:, None]
+        # 2. Tính mức độ biến thiên dao động động học (Standard deviation của độ lớn gia tốc)
+        mags = np.sqrt(np.sum(raw_window ** 2, axis=0)) # (128,)
+        std_mag = float(np.std(mags))
         
-        # 3. Đưa vào tensor PyTorch: (1, 3, 128)
-        tensor = torch.from_numpy(norm_window).unsqueeze(0).to(self.device)
-        
-        # 4. Suy luận
-        with torch.no_grad():
-            logits = self.model(tensor)
-            probs = F.softmax(logits, dim=1).squeeze(0).cpu().numpy()
-            pred_id = int(np.argmax(probs))
-            confidence = float(probs[pred_id])
+        # 3. Bộ lọc trạng thái tĩnh thông minh (Stationary / Idle Gating Filter)
+        # Khi điện thoại đặt yên trên bàn hoặc người ngồi bất động: std_mag < 0.05g
+        if std_mag < 0.05:
+            pred_id = 0 # 0. Ngồi (Sitting / Idle)
+            confidence = 0.985
+            probs = np.zeros(8, dtype=np.float32)
+            probs[0] = 0.985
+            probs[7] = 0.015 # Làm việc VP
+            motion_type = "TĨNH (Nằm yên)"
+        else:
+            # 4. Khi có dao động vận động: Chuẩn hóa Z-score và suy luận qua mô hình 1D-CNN (HARClassifier)
+            norm_window = (raw_window - self.mean[:, None]) / self.std[:, None]
+            tensor = torch.from_numpy(norm_window).unsqueeze(0).to(self.device)
+            with torch.no_grad():
+                logits = self.model(tensor)
+                probs = F.softmax(logits, dim=1).squeeze(0).cpu().numpy()
+                pred_id = int(np.argmax(probs))
+                confidence = float(probs[pred_id])
+            motion_type = "ĐỘNG"
             
         self.last_pred = {
             "class_id": pred_id,
             "class_name": CLASS_INFO[pred_id]["name"],
             "icon": CLASS_INFO[pred_id]["icon"],
             "confidence": round(confidence * 100, 1),
-            "probabilities": [round(float(p) * 100, 1) for p in probs]
+            "probabilities": [round(float(p) * 100, 1) for p in probs],
+            "std_mag": round(std_mag, 3),
+            "motion_type": motion_type
         }
         return self.last_pred
 
@@ -213,6 +226,7 @@ HTML_PAGE = """<!DOCTYPE html>
             <div class="activity-icon" id="act-icon">⏳</div>
             <div class="activity-name" id="act-name">Chờ cảm biến...</div>
             <div class="confidence-pill" id="act-conf">Độ tin cậy: --%</div>
+            <div id="motion-badge" style="display:block; margin-top:6px; font-size:0.75rem; color:#94a3b8;">Trạng thái: Đang chờ dữ liệu...</div>
             
             <div class="buffer-progress">
                 <div class="buffer-bar" id="buf-bar"></div>
@@ -393,6 +407,9 @@ HTML_PAGE = """<!DOCTYPE html>
                     document.getElementById('act-icon').textContent = data.icon;
                     document.getElementById('act-name').textContent = data.class_name;
                     document.getElementById('act-conf').textContent = `Độ tin cậy: ${data.confidence}%`;
+                    if (data.motion_type) {
+                        document.getElementById('motion-badge').innerHTML = `Độ dao động: <b style="color:#60a5fa">${data.std_mag}g</b> — <span style="color:#10b981">${data.motion_type}</span>`;
+                    }
                     
                     if (data.latest_acc) {
                         document.getElementById('val-x').textContent = data.latest_acc[0].toFixed(2);
@@ -563,7 +580,7 @@ async def ws_handler(request):
                                 "type": "prediction",
                                 **pred
                             })
-                            print(f"[{time.strftime('%H:%M:%S')}] Nhận diện: {pred['icon']} {pred['class_name']} ({pred['confidence']}%)")
+                            print(f"[{time.strftime('%H:%M:%S')}] Nhận diện: {pred['icon']} {pred['class_name']} ({pred['confidence']}%) | Dao động: {pred.get('std_mag', 0)}g [{pred.get('motion_type', '')}]")
                             
                 elif data.get("type") == "inject_test_sample":
                     # Sinh mẫu giả lập từ một hoạt động trong test cache để kiểm tra
@@ -693,7 +710,7 @@ async def http_sensor_logger_handler(request):
                 pred["latest_acc"] = [round(float(last_acc[0]), 2), round(float(last_acc[1]), 2), round(float(last_acc[2]), 2)]
                 pred["waveform"] = [[round(float(s[0]), 2), round(float(s[1]), 2), round(float(s[2]), 2)] for s in har_pipeline.buffer[-40:]]
                 t_str = time.strftime('%H:%M:%S')
-                print(f"[{t_str}] [DỰ ĐOÁN] {pred['icon']} {pred['class_name']} ({pred['confidence']}%) | Acc: [{last_acc[0]:.2f}, {last_acc[1]:.2f}, {last_acc[2]:.2f}]g")
+                print(f"[{t_str}] [DỰ ĐOÁN] {pred['icon']} {pred['class_name']} ({pred['confidence']}%) | Dao động: {pred.get('std_mag', 0)}g [{pred.get('motion_type', '')}] | Acc: [{last_acc[0]:.2f}, {last_acc[1]:.2f}, {last_acc[2]:.2f}]g")
                 
                 # Gửi thông báo đến tất cả web client đang mở
                 for ws in list(connected_websockets):
